@@ -49,6 +49,15 @@ namespace BestOfQueenOfSauce
             FirstAirDate["Shrimp Cocktail"] = 224;
 
             helper.Events.Display.MenuChanged += OnMenuChanged;
+            helper.Events.GameLoop.DayEnding += OnDayEnding;
+        }
+
+        private void OnDayEnding(object sender, DayEndingEventArgs e)
+        {
+            if(Game1.Date.TotalDays >= 7 + Config.DaysAfterAiring + 1)
+            {
+                //send the letter kronk
+            }
         }
 
         private void OnMenuChanged(object sender, MenuChangedEventArgs e)
@@ -70,10 +79,10 @@ namespace BestOfQueenOfSauce
                 tmp2.IsRecipe = true;
                 tmp2.Stack = 1;
                 tmp2.Name = tmp.name;
+                tmp2.ParentSheetIndex = tmp.getIndexOfMenuView(); 
                 menu.forSale.Add(tmp2);
                 menu.itemPriceAndStock.Add(tmp2, new int[2] { Config.Price, 1 });
             }
-
         }
     }
 
