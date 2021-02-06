@@ -23,6 +23,8 @@ namespace BestOfQueenOfSauce
         public override void Entry(IModHelper helper)
         {
             Config = helper.ReadConfig<ModConfig>();
+            I18n.Init(helper.Translation);
+
             FirstAirDate["Stir Fry"] = 7;
             FirstAirDate["Coleslaw"] = 14;
             FirstAirDate["Radish Salad"] = 21;
@@ -50,13 +52,18 @@ namespace BestOfQueenOfSauce
 
             helper.Events.Display.MenuChanged += OnMenuChanged;
             helper.Events.GameLoop.DayEnding += OnDayEnding;
+            helper.Events.GameLoop.GameLaunched += OnGameLaunched;
+        }
+        private void OnGameLaunched(object sender, GameLaunchedEventArgs e)
+        {
+            Helper.Content.AssetEditors.Add(new MailEditor(Config.DaysAfterAiring, Config.Price));
         }
 
         private void OnDayEnding(object sender, DayEndingEventArgs e)
         {
             if(Game1.Date.TotalDays >= 7 + Config.DaysAfterAiring + 1)
             {
-                //send the letter kronk
+                Game1.addMailForTomorrow("BestOfQOS.Letter1");
             }
         }
 
@@ -68,7 +75,7 @@ namespace BestOfQueenOfSauce
             if (!(Helper.Reflection.GetField<string>(e.NewMenu, "storeContext").GetValue() == "Saloon")) return;
             ShopMenu menu = (ShopMenu)e.NewMenu;
             //Naming is hard. This is the most recent date that a recipe can be available. 
-            // Example, it's S27, Y2 (Day 167) using the default config setting of 28 days (making this variable 139) Complete Breakfast (aired day 133) would be available, but Luck Lunch (day 140) would not.
+            // Example, it's Y2,S27 (Day 167) using the default config setting of 28 days (making this variable 139) Complete Breakfast (aired day 133) would be available, but Luck Lunch (day 140) would not.
             int latestRecipeDate = Game1.Date.TotalDays - Config.DaysAfterAiring;
 
             foreach (var kvp in FirstAirDate.Where(x => x.Value <= latestRecipeDate && !Game1.player.cookingRecipes.Keys.Contains(x.Key)))
@@ -150,7 +157,7 @@ namespace BestOfQueenOfSauce
 
         public int salePrice()
         {
-            throw new NotImplementedException();
+            return price;
         }
 
         public bool ShouldDrawIcon()
