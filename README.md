@@ -41,7 +41,7 @@ Note: This does not change recipes that are available from other sources. It onl
 
 * None beyond SMAPI
 
-This mod was originally written for SMAPI 3.9.x and SDV 1.5.x, however it may be backwards compatible since I don't believ I used any features that would lock it to these and later versions.
+This mod was originally written for SMAPI 3.9.x and SDV 1.5.x, however it may be backwards compatible since I don't believe I used any features that would lock it to these and later versions, there are no gauruntees of that though.
 
 ## Conflicts
 
