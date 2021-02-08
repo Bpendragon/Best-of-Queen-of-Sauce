@@ -41,6 +41,8 @@ Note: This does not change recipes that are available from other sources. It onl
 
 * None beyond SMAPI
 
+This mod was originally written for SMAPI 3.9.x and SDV 1.5.x, however it may be backwards compatible since I don't believ I used any features that would lock it to these and later versions.
+
 ## Conflicts
 
 * Will not add any recipes from other mods that may modify The Queen of Sauce, or that changes the airing order.
