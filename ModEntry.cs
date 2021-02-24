@@ -77,7 +77,6 @@ namespace BestOfQueenOfSauce
             //Naming is hard. This is the most recent date that a recipe can be available. 
             // Example, it's Y2,S27 (Day 167) using the default config setting of 28 days (making this variable 139) Complete Breakfast (aired day 133) would be available, but Luck Lunch (day 140) would not.
             int latestRecipeDate = Game1.Date.TotalDays - Config.DaysAfterAiring;
-
             foreach (var kvp in FirstAirDate.Where(x => x.Value <= latestRecipeDate && !Game1.player.cookingRecipes.Keys.Contains(x.Key)))
             {
                 var tmp = new CraftingRecipe(kvp.Key, true);

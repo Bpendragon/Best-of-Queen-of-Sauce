@@ -57,4 +57,7 @@ There are 2 values in the Config file, both are `int` and can take any positive 
 
 ## Translations
 
+* Spanish - [vlcoo](https://github.com/vlcoo)
+* Turkish - [KediDili](https://github.com/KediDili)
+
 Please contribute, see which languages are still needed [here](https://github.com/StardewModders/mod-translations/issues/39)
