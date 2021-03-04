@@ -59,5 +59,6 @@ There are 2 values in the Config file, both are `int` and can take any positive 
 
 * Spanish - [vlcoo](https://github.com/vlcoo)
 * Turkish - [KediDili](https://github.com/KediDili)
+* French  - [Schneitizel](https://github.com/Schneitizel) 
 
 Please contribute, see which languages are still needed [here](https://github.com/StardewModders/mod-translations/issues/39)
