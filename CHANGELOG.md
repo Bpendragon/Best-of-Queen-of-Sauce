@@ -2,6 +2,7 @@
 ## Table of Contents
 <!-- TOC -->
 
+- [V1.2.0](#v120)
 - [V1.0.3](#v103)
     - [Experimental](#experimental)
 - [V1.0.2](#v102)
@@ -9,6 +10,9 @@
 - [V1.0.0](#v100)
 
 <!-- /TOC -->
+
+# V1.2.0
+* Updated for SDV1.6/SMAPI4.0
 
 # V1.0.3
 * German Translation from [xm5PS9HrixmK0OMdY4QgCKWFUIDJhVG7](https://github.com/xm5PS9HrixmK0OMdY4QgCKWFUIDJhVG7)
