@@ -54,6 +54,15 @@ namespace Bpendragon.BestOfQueenOfSauce
             helper.Events.GameLoop.DayEnding += OnDayEnding;
             helper.Events.Content.AssetRequested += OnAssetRequested;
         }
+        private void OnAssetRequested(object sender, AssetRequestedEventArgs e)
+            {
+                e.Edit(asset => {
+                    var data = asset.AsDictionary<string, string>().Data;
+
+                    data["BestOfQOS.Letter1"] = I18n.BestOfQOS_Letter1().Replace("[days]", Config.DaysAfterAiring.ToString()).Replace("[price]", Config.Price.ToString());
+                });
+                MailChangesMade = true;
+            }
 
         private void OnAssetRequested(object sender, AssetRequestedEventArgs e)
         {
@@ -85,10 +94,7 @@ namespace Bpendragon.BestOfQueenOfSauce
                     }
                 });
             }
-        }
-
         private void OnDayEnding(object sender, DayEndingEventArgs e)
-        {
             Helper.GameContent.InvalidateCache("Data/Shops");
             if (Game1.Date.TotalDays >= 7 + Config.DaysAfterAiring + 1)
             {
