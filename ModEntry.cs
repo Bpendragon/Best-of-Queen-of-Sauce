@@ -51,18 +51,17 @@ namespace Bpendragon.BestOfQueenOfSauce
             FirstAirDate["Bruschetta"] = (217, "(O)618");
             FirstAirDate["Shrimp Cocktail"] = (224, "(O)733");
 
-            helper.Events.GameLoop.DayEnding += OnDayEnding;
-            helper.Events.Content.AssetRequested += OnAssetRequested;
+            Helper.Events.Content.AssetRequested += OnAssetRequested;
+            GameStateQuery.Register("BestOfQOS.RecipeCondition", CheckRecipe);
         }
-        private void OnAssetRequested(object sender, AssetRequestedEventArgs e)
-            {
-                e.Edit(asset => {
-                    var data = asset.AsDictionary<string, string>().Data;
 
-                    data["BestOfQOS.Letter1"] = I18n.BestOfQOS_Letter1().Replace("[days]", Config.DaysAfterAiring.ToString()).Replace("[price]", Config.Price.ToString());
-                });
-                MailChangesMade = true;
-            }
+        internal bool CheckRecipe(string[] query, GameLocation location, Farmer player, Item targetItem, Item inputItem, Random random)
+        {
+            //Naming is hard. This is the most recent date that a recipe can be available. 
+            //Example, it's Y2,S27 (Day 167) using the default config setting of 28 days (making this variable 139) Complete Breakfast (aired day 133) would be available, but Luck Lunch (day 140) would not.
+            int latestRecipeDate = Game1.Date.TotalDays - Config.DaysAfterAiring;
+            return latestRecipeDate >= FirstAirDate[query[^1]].day && !Game1.player.cookingRecipes.Keys.Contains(query[^1]);
+        }
 
         private void OnAssetRequested(object sender, AssetRequestedEventArgs e)
         {
@@ -79,23 +78,24 @@ namespace Bpendragon.BestOfQueenOfSauce
             {
                 e.Edit(delegate (IAssetData data) {
                     var dict = data.AsDictionary<string, ShopData>();
-                    //Naming is hard. This is the most recent date that a recipe can be available. 
-                    // Example, it's Y2,S27 (Day 167) using the default config setting of 28 days (making this variable 139) Complete Breakfast (aired day 133) would be available, but Luck Lunch (day 140) would not.
-                    int latestRecipeDate = Game1.Date.TotalDays - Config.DaysAfterAiring;
-                    foreach (var kvp in FirstAirDate.Where(x => x.Value.day <= latestRecipeDate && !Game1.player.cookingRecipes.Keys.Contains(x.Key)))
+                    foreach (var kvp in FirstAirDate)
                     {
                         dict.Data["Saloon"].Items.Add(new ShopItemData() {
                             Id = kvp.Key,
                             ItemId = kvp.Value.Id,
                             Price = Config.Price,
                             IsRecipe = true,
-                            AvoidRepeat = true
+                            AvoidRepeat = true,
+                            Condition = $"BestOfQOS.RecipeCondition \"{kvp.Key}\""
                         });
                     }
                 });
-            }
+            } 
+        
+        }
+
         private void OnDayEnding(object sender, DayEndingEventArgs e)
-            Helper.GameContent.InvalidateCache("Data/Shops");
+        {
             if (Game1.Date.TotalDays >= 7 + Config.DaysAfterAiring + 1)
             {
                 Game1.addMailForTomorrow("BestOfQOS.Letter1");
