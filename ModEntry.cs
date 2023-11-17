@@ -18,13 +18,11 @@ namespace Bpendragon.BestOfQueenOfSauce
         private readonly Dictionary<string, (int day, string Id)> FirstAirDate = new();
         private ModConfig Config;
         private bool MailChangesMade = false;
-        private static IModHelper Helper;
 
         public override void Entry(IModHelper helper)
         {
-            Helper = helper;
-            Config = Helper.ReadConfig<ModConfig>();
-            I18n.Init(Helper.Translation);
+            Config = helper.ReadConfig<ModConfig>();
+            I18n.Init(helper.Translation);
 
             FirstAirDate["Stir Fry"] = (7, "(O)606");
             FirstAirDate["Coleslaw"] = (14, "(O)648");
@@ -51,7 +49,7 @@ namespace Bpendragon.BestOfQueenOfSauce
             FirstAirDate["Bruschetta"] = (217, "(O)618");
             FirstAirDate["Shrimp Cocktail"] = (224, "(O)733");
 
-            Helper.Events.Content.AssetRequested += OnAssetRequested;
+            helper.Events.Content.AssetRequested += OnAssetRequested;
             GameStateQuery.Register("BestOfQOS.RecipeCondition", CheckRecipe);
         }
 
