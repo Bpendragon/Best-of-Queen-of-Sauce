@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 
 using StardewValley;
+using StardewValley.Delegates;
 using StardewValley.GameData.Shops;
-using StardewValley.Menus;
-
-using SVObject = StardewValley.Object;
 
 namespace Bpendragon.BestOfQueenOfSauce
 {
@@ -53,10 +49,10 @@ namespace Bpendragon.BestOfQueenOfSauce
             GameStateQuery.Register("BestOfQOS.RecipeCondition", CheckRecipe);
         }
 
-        internal bool CheckRecipe(string[] query, GameLocation location, Farmer player, Item targetItem, Item inputItem, Random random)
+        internal bool CheckRecipe(string[] query, GameStateQueryContext context)
         {
             //Naming is hard. This is the most recent date that a recipe can be available. 
-            //Example, it's Y2,S27 (Day 167) using the default config setting of 28 days (making this variable 139) Complete Breakfast (aired day 133) would be available, but Luck Lunch (day 140) would not.
+            //Example, it's Y2,S27 (Day 167) using the default config setting of 28 days (making this variable 139) Complete Breakfast (aired day 133) would be available, but Lucky Lunch (day 140) would not.
             int latestRecipeDate = Game1.Date.TotalDays - Config.DaysAfterAiring;
             return latestRecipeDate >= FirstAirDate[query[^1]].day && !Game1.player.cookingRecipes.Keys.Contains(query[^1]);
         }
